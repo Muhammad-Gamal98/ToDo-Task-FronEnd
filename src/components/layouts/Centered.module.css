@@ -1,0 +1,5 @@
+.vCentered {
+  height: calc(100vh - 56px);
+  display: flex;
+  align-content: center;
+}
