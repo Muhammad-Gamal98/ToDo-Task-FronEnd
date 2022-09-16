@@ -1,34 +1,11 @@
-import { createContext, useState } from "react";
-import { calculateRemainingTime } from "../utils/calculation";
+import React from "react";
 
-const AuthContext = createContext({
-  isLoggedIn: false,
+const AuthContext = React.createContext({
   token: "",
-  verified: "",
-  login: (token) => {},
-  logout: () => {},
+  isLogedIn: false,
+  isUserVerified: false,
+  logIn: (data) => {},
+  signUp: () => {},
+  logOut: () => {},
 });
-
-export const AuthContextProvider = (props) => {
-  const [token, setToken] = useState(null);
-
-  const userIsLogged = false;
-  const userIsVerified = false;
-
-  const logoutHandler = () => {
-    console.log("Logout");
-  };
-  const loginHandler = () => {
-    console.log("Login");
-  };
-
-  const contextValue = {
-    isLoggedIn: userIsLogged,
-    token,
-    verified: userIsVerified,
-    login: loginHandler,
-    logout: logoutHandler,
-  };
-
-  return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>;
-};
+export default AuthContext;
