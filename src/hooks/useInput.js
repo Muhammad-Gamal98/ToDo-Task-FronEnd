@@ -3,7 +3,6 @@ const useInput = (checkValidate) => {
   const [inputValue, setInputValue] = useState("");
   const [isTouched, setIsTouched] = useState(false);
   const isInputValid = checkValidate(inputValue);
-  console.log(isInputValid);
   const inputHasError = !isInputValid && isTouched;
 
   const inputChangeHandler = (event) => {
@@ -16,7 +15,6 @@ const useInput = (checkValidate) => {
     setIsTouched(false);
     setInputValue("");
   };
-  console.log(isInputValid, inputHasError, isTouched, inputValue);
 
   return {
     inputValue,
