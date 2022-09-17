@@ -6,23 +6,34 @@ const initialState = {
   isLogedIn: false,
   isUserVerified: false,
 };
+document.cookie &&
+  (initialState.token = document.cookie) &&
+  (initialState.isLogedIn = true);
+
 const authReducer = (state, action) => {
   if (action.type === "LOGIN") {
     console.log(action.payload);
     const updatedToken = action.payload.token;
-    const updatesIsLogedIn = true;
-    console.log(updatedToken, updatesIsLogedIn);
+    const updatedIsLogedIn = true;
+    const updatesIsUserVerified = action.payload.data.verified;
+    console.log(updatedToken, updatedIsLogedIn, document.cookie);
     return {
       token: updatedToken,
-      isLogedIn: updatesIsLogedIn,
-      ...state,
+      isLogedIn: updatedIsLogedIn,
+      isUserVerified: updatesIsUserVerified,
     };
+  }
+  if (action.type === "LOGOUT") {
+    document.cookie = "jwt" + "=; Max-Age=0";
+    console.log("logout", document.cookie);
+    return initialState;
   }
   return initialState;
 };
 const AuthProvider = (props) => {
+  console.log("cookie", document.cookie);
   const [authState, dispatchAuthState] = useReducer(authReducer, initialState);
-
+  console.log(authState);
   const logInHandler = (data) => {
     dispatchAuthState({ type: "LOGIN", payload: data });
   };

@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import useInput from "../../hooks/useInput";
 import Centered from "../layouts/Centered";
 import Card from "../UI/Card";
 import Form from "../UI/Form";
 import Input from "../UI/Input";
 import { validateEmail } from "../../utils/regularExpression.js";
+import AuthContext from "../../store/auth-context";
+import loginAction from "../../store/Action/loginAction";
 
 const validateEmailInput = (value) => validateEmail(value);
-const validatePasswordInput = (value) => value.trim().length >= 6;
+const validatePasswordInput = (value) => value.trim().length >= 5;
 
 function LoginForm() {
+  const authCtx = useContext(AuthContext);
   const {
     inputValue: emailValue,
     inputChangeHandler: emailChangeHandler,
@@ -33,17 +37,23 @@ function LoginForm() {
     formIsValid = true;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formIsValid) {
       console.log("unvalid submit");
       return;
     }
-    console.log("Form Submitted");
-    emailReset();
-    passwordReset();
+    try {
+      const res = await loginAction(emailValue, passwordValue);
+      console.log(res);
+      authCtx.logIn(res.data);
+      emailReset();
+      passwordReset();
+    } catch (error) {
+      console.log("errrrrrrrrrrr");
+      console.log(error);
+    }
   };
-
   const buttonProps = {
     type: "submit",
     title: "Login",
