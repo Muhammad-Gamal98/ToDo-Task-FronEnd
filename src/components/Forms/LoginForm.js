@@ -65,7 +65,6 @@ const LoginForm = () => {
     } catch (error) {
       setIsLoading(false);
       setErrorMessage(error.response.data.message);
-      console.error("Error while log in");
       console.log(error.response.data.message);
     }
   };

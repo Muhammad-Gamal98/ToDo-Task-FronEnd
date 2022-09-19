@@ -15,10 +15,8 @@ getCookieName("jwt") &&
   (initialState.token = getCookieName("jwt")[1]) &&
   (initialState.isLogedIn = true) &&
   (initialState.isUserVerified = true);
-console.log(initialState);
 const authReducer = (state, action) => {
   if (action.type === "LOGIN") {
-    console.log(action.payload.status !== "notVerified");
     if (action.payload.status !== "notVerified") {
       const updatedToken = action.payload.token;
       const updatedIsLogedIn = true;

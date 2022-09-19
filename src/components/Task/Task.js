@@ -42,14 +42,11 @@ const Task = (props) => {
 
   const removeTaskHandler = () => {
     setLoading(true);
-    console.log(loading);
     try {
       dispatch(removeTask(props.id));
-      console.log(loading);
       setLoading(true);
-      console.log(false);
     } catch (error) {
-      console.log("error from compounent", error);
+      console.log(error);
     }
   };
 

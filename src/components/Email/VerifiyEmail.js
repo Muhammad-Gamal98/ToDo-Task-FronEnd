@@ -8,8 +8,6 @@ import Button from "../UI/Button";
 export const VerifiyEmail = () => {
   const [validURL, setValidURL] = useState();
   const param = useParams();
-  console.log(param);
-  console.log(validURL);
   useEffect(() => {
     const VerifiyEmailURL = async () => {
       try {
@@ -18,7 +16,6 @@ export const VerifiyEmail = () => {
           url: `${URL}/user/verifyAccount/${param.id}/${param.token}`,
           // withCredentials: true,
         });
-        console.log(res);
         setValidURL(true);
       } catch (error) {
         console.log(error);

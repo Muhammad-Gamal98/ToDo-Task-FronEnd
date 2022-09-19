@@ -34,7 +34,6 @@ const ForgetPassword = () => {
     }
     try {
       const res = await forgetPassword(emailValue);
-      console.log(res);
       setIsLoading(false);
       emailReset();
       setMessage("Check your E-mail for reset password ");

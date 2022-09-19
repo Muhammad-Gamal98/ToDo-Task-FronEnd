@@ -45,7 +45,7 @@ const ResetPassword = () => {
           method: "GET",
           url: `${URL}/user/resetpassword/${param.id}/${param.token}`,
         });
-        console.log(res);
+
         setValidURL(true);
       } catch (error) {
         console.log(error);
@@ -54,7 +54,6 @@ const ResetPassword = () => {
     };
     verifyReset();
   }, [param]);
-  console.log(validURL);
   let formIsValied = false;
   if (passwordValid && passwordConfirmValid) {
     formIsValied = true;
@@ -79,7 +78,6 @@ const ResetPassword = () => {
         param.id,
         param.token
       );
-      console.log(res);
       setIsLoading(false);
       passwordReset();
       passwordConfirmReset();
@@ -89,7 +87,6 @@ const ResetPassword = () => {
       setIsLoading(false);
       setSuccessReset(false);
       setErrorMessage(error.response.data.message);
-      console.error("Error while log in");
       console.log(error.response.data.message);
     }
   };

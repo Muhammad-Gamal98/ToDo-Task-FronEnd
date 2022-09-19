@@ -104,7 +104,6 @@ const TaskForm = (props) => {
     } catch (error) {
       setIsLoading(false);
       setErrorMessage(error.response.data.message);
-      console.log("Error while add Task");
       console.log(error);
     }
   };
