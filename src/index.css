@@ -7,3 +7,7 @@ html {
   font-family: sans-serif;
   background: #fff;
 }
+
+.modal.fade.show {
+  background-color: rgba(13, 13, 13, 0.583);
+}

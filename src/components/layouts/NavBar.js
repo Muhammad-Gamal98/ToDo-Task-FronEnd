@@ -1,70 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 
-function NavBar() {
+function NavBar(props) {
+  const authCtx = useContext(AuthContext);
   return (
-    <nav className="navbar navbar-expand-lg bg-light">
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand-sm bg-success mb-5">
+      <div className="container">
         <a className="navbar-brand" href="#">
-          Navbar
+          Task App
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button className="navbar-toggler" type="button">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Link
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled">Disabled</a>
+              {authCtx.isLogedIn && (
+                <div className="d-flex">
+                  <Link to="/">
+                    <button className="btn btn-light" onClick={props.onLogout}>
+                      Log Out
+                    </button>
+                  </Link>
+                </div>
+              )}
             </li>
           </ul>
+          {!authCtx.isLogedIn && (
+            <div className="d-flex m-2">
+              <Link to="/login">
+                <button className="btn btn-light">Log In</button>
+              </Link>
+            </div>
+          )}
+          {authCtx.isLogedIn && (
+            <div className="d-flex m-2">
+              <button className="btn btn-light" onClick={props.handleFormOpen}>
+                Add New Task
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>
