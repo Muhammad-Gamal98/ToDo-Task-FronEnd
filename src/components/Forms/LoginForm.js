@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import useInput from "../../hooks/useInput";
 import Centered from "../layouts/Centered";
 import Card from "../UI/Card";
@@ -8,12 +7,16 @@ import Form from "../UI/Form";
 import Input from "../UI/Input";
 import { validateEmail } from "../../utils/regularExpression.js";
 import AuthContext from "../../store/auth-context";
-import loginAction from "../../store/Action/loginAction";
+import { loginAction } from "../../store/Action/loginAction";
+import Alert from "../UI/Alert";
 
 const validateEmailInput = (value) => validateEmail(value);
 const validatePasswordInput = (value) => value.trim().length >= 5;
 
-function LoginForm() {
+const LoginForm = () => {
+  const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
   const {
     inputValue: emailValue,
@@ -27,45 +30,61 @@ function LoginForm() {
     inputValue: passwordValue,
     inputChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlureHandler,
-    isInputValid: passwordEmailValid,
+    isInputValid: passwordValid,
     inputHasError: passwordHasError,
     reset: passwordReset,
   } = useInput(validatePasswordInput);
 
-  let formIsValid = false;
-  if (isEmailValid && passwordEmailValid) {
-    formIsValid = true;
+  let formIsValied = false;
+  if (isEmailValid && passwordValid) {
+    formIsValied = true;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formIsValid) {
-      console.log("unvalid submit");
+    setErrorMessage(null);
+    setMessage(null);
+    setIsLoading(true);
+    if (!formIsValied) {
+      setErrorMessage("Unvalied Inputs");
+      setIsLoading(false);
       return;
     }
     try {
       const res = await loginAction(emailValue, passwordValue);
       console.log(res);
       authCtx.logIn(res.data);
-      emailReset();
-      passwordReset();
+      setIsLoading(false);
+
+      if (res.data.status === "notVerified") {
+        setErrorMessage("This Account is not verified");
+      } else {
+        emailReset();
+        passwordReset();
+        setMessage("Login successfully.");
+      }
     } catch (error) {
-      console.log("errrrrrrrrrrr");
-      console.log(error);
+      setIsLoading(false);
+      setErrorMessage(error.response.data.message);
+      console.error("Error while log in");
+      console.log(error.response.data.message);
     }
   };
   const buttonProps = {
     type: "submit",
     title: "Login",
     buttonStyle: "btn-primary",
-    handleSubmit,
   };
 
   return (
     <>
       <Centered width="6">
         <Card title="Login">
-          <Form inputs={buttonProps} handleSubmit={handleSubmit}>
+          <Form
+            inputs={buttonProps}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+          >
             <Input
               label="Email"
               error={emailHasError}
@@ -82,7 +101,7 @@ function LoginForm() {
             <Input
               label="Password"
               error={passwordHasError}
-              errorMessage="Passwor less than 6 character"
+              errorMessage="Password less than 5 character"
               input={{
                 type: "password",
                 id: "password",
@@ -93,6 +112,8 @@ function LoginForm() {
               }}
             />
           </Form>
+          {message && <Alert message={message} />}
+          {errorMessage && <Alert message={errorMessage} error />}
           <Link to="/forget-Password">
             <p>Forget Password?</p>
           </Link>
@@ -103,6 +124,6 @@ function LoginForm() {
       </Centered>
     </>
   );
-}
+};
 
 export default LoginForm;

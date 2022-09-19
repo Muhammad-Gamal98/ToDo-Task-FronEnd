@@ -7,7 +7,7 @@ function Input(props) {
         {props.label}
       </label>
       <input
-        className={`form-control ${props.error ? "is-invalid" : ""}`}
+        className={`form-control ${props.error && "is-invalid"}`}
         {...props.input}
       />
       {props.error && (
