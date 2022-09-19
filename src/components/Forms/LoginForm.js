@@ -52,12 +52,11 @@ const LoginForm = () => {
     }
     try {
       const res = await loginAction(emailValue, passwordValue);
-      console.log(res);
       authCtx.logIn(res.data);
       setIsLoading(false);
 
       if (res.data.status === "notVerified") {
-        setErrorMessage("This Account is not verified");
+        setErrorMessage(res.data.message);
       } else {
         emailReset();
         passwordReset();

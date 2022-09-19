@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Centered from "../layouts/Centered";
 import URL from "../../constants/URL";
+import Button from "../UI/Button";
 
 export const VerifiyEmail = () => {
   const [validURL, setValidURL] = useState();
@@ -35,7 +36,8 @@ export const VerifiyEmail = () => {
           <div>
             <h1>Sucessfull verify</h1>
             <Link to="/login">
-              <button>Login</button>
+              <Button buttonStyle="btn-primary" type="button" title="Login" />
+              {/* <button>Login</button> */}
             </Link>
           </div>
         )}

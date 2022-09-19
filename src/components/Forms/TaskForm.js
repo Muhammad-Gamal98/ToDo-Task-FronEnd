@@ -79,7 +79,6 @@ const TaskForm = (props) => {
     setMessage(null);
     setIsLoading(true);
     if (!formIsValid) {
-      console.log("Unvalied Inputs");
       setErrorMessage("Unvalied Inputs");
       setIsLoading(false);
       return;
@@ -94,7 +93,6 @@ const TaskForm = (props) => {
           endDateValue
         )
       );
-      console.log(x);
       setIsLoading(false);
       dispatch(getTasksAction());
       setMessage("Task Added");

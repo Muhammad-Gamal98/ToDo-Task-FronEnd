@@ -18,9 +18,8 @@ getCookieName("jwt") &&
 console.log(initialState);
 const authReducer = (state, action) => {
   if (action.type === "LOGIN") {
-    console.log(!action.payload.status === "notVerified");
+    console.log(action.payload.status !== "notVerified");
     if (action.payload.status !== "notVerified") {
-      console.log("in auth login");
       const updatedToken = action.payload.token;
       const updatedIsLogedIn = true;
       const updatesIsUserVerified = action.payload.data.verified;
@@ -30,7 +29,6 @@ const authReducer = (state, action) => {
         isUserVerified: updatesIsUserVerified,
       };
     }
-    console.log("out auth login");
   } else if (action.type === "SIGNUP") {
     console.log(action.payload);
   } else if (action.type === "LOGOUT") {

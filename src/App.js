@@ -14,7 +14,6 @@ import ResetPassword from "./components/Forms/ResetPassword";
 
 function App() {
   const authCtx = useContext(AuthContext);
-  console.log(authCtx);
   return (
     <>
       <Layout>
