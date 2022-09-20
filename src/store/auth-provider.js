@@ -10,8 +10,9 @@ const initialState = {
   isLogedIn: false,
   isUserVerified: false,
 };
+
 getCookieName("jwt") &&
-  getCookieName("jwt")[0] === " jwt" &&
+  getCookieName("jwt")[0] === "jwt" &&
   (initialState.token = getCookieName("jwt")[1]) &&
   (initialState.isLogedIn = true) &&
   (initialState.isUserVerified = true);
