@@ -44,11 +44,11 @@ const Task = (props) => {
     });
   }, [statusValue, isStatusValid, props.id, dispatch]);
 
-  const removeTaskHandler = () => {
+  const removeTaskHandler = async () => {
     setLoading(true);
     try {
-      dispatch(removeTask(props.id));
-      setLoading(true);
+      await dispatch(removeTask(props.id));
+      setLoading(false);
     } catch (error) {
       console.log(error);
       authCtx.logOut();

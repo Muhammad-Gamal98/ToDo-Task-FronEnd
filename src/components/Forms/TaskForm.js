@@ -75,7 +75,7 @@ const TaskForm = (props) => {
     formIsValid = true;
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage(null);
     setMessage(null);
@@ -86,7 +86,7 @@ const TaskForm = (props) => {
       return;
     }
     try {
-      dispatch(
+      await dispatch(
         sendTask(
           titleValue,
           descriptionValue,
@@ -95,8 +95,8 @@ const TaskForm = (props) => {
           endDateValue
         )
       );
+      await dispatch(getTasksAction());
       setIsLoading(false);
-      dispatch(getTasksAction());
       setMessage("Task Added");
       titleReset();
       descriptionReset();
@@ -107,7 +107,8 @@ const TaskForm = (props) => {
       setIsLoading(false);
       setErrorMessage(error.response.data.message);
       console.log(error);
-      error.response.data.message.includes("expired") && authCtx.logOut();
+      error.response.data.message.includes("expired") ||
+        (error.response.data.message.includes("logged") && authCtx.logOut());
     }
   };
   return (
