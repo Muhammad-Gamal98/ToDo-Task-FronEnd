@@ -28,7 +28,7 @@ const ForgetPassword = () => {
     setMessage(null);
     setIsLoading(true);
     if (!isEmailValid) {
-      setErrorMessage("Unvalied Inputs");
+      setErrorMessage("Invalied Inputs");
       setIsLoading(false);
       return;
     }

@@ -67,7 +67,7 @@ const ResetPassword = () => {
     setIsLoading(true);
     if (!formIsValied) {
       setSuccessReset(false);
-      setErrorMessage("Unvalied Inputs");
+      setErrorMessage("Invalied Inputs");
       setIsLoading(false);
       return;
     }

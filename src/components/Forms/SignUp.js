@@ -64,7 +64,7 @@ const SignUp = () => {
 
     setIsLoading(true);
     if (!formIsValied) {
-      setErrorMessage("Unvalied Inputs");
+      setErrorMessage("Invalied Inputs");
       setIsLoading(false);
       return;
     }

@@ -81,7 +81,7 @@ const TaskForm = (props) => {
     setMessage(null);
     setIsLoading(true);
     if (!formIsValid) {
-      setErrorMessage("Unvalied Inputs");
+      setErrorMessage("Invalied Inputs");
       setIsLoading(false);
       return;
     }

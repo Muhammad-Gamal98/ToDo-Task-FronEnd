@@ -46,7 +46,7 @@ const LoginForm = () => {
     setMessage(null);
     setIsLoading(true);
     if (!formIsValied) {
-      setErrorMessage("Unvalied Inputs");
+      setErrorMessage("Invalied Inputs");
       setIsLoading(false);
       return;
     }
