@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import useInput from "../../hooks/useInput";
 import { editTaskStatus, removeTask } from "../../store/Action/TasksAction";
@@ -6,6 +6,7 @@ import { images } from "../../constants";
 import Select from "../UI/Select";
 import classes from "./Task.module.css";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import AuthContext from "../../store/auth-context";
 const priorityObj = {
   High: "🔴",
   Medium: "🟠",
@@ -15,6 +16,7 @@ let isInitial = true;
 const Task = (props) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const authCtx = useContext(AuthContext);
   const {
     inputValue: statusValue,
     inputChangeHandler: statusChangeHandler,
@@ -37,8 +39,10 @@ const Task = (props) => {
     if (!isStatusValid) {
       return;
     }
-    dispatch(editTaskStatus(statusValue, props.id));
-  }, [statusValue, isStatusValid]);
+    dispatch(editTaskStatus(statusValue, props.id)).catch((error) => {
+      authCtx.logOut();
+    });
+  }, [statusValue, isStatusValid, props.id, dispatch]);
 
   const removeTaskHandler = () => {
     setLoading(true);
@@ -47,6 +51,7 @@ const Task = (props) => {
       setLoading(true);
     } catch (error) {
       console.log(error);
+      authCtx.logOut();
     }
   };
 

@@ -20,7 +20,7 @@ const Layout = (props) => {
   return (
     <>
       <NavBar handleFormOpen={handleOpen} onLogout={handelLogOut} />
-      {isFormVisible && <TaskForm onClose={handleClose} />}
+      {isFormVisible && authCtx.isLogedIn && <TaskForm onClose={handleClose} />}
       <main>{props.children}</main>
     </>
   );

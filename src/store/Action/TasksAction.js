@@ -19,6 +19,9 @@ export const getTasksAction = () => {
         dispatch(taskAction.replaceTask({ tasks: [] }));
       }
       console.log(error);
+      if (error.response.data.message.includes("expired")) {
+        throw new Error("Expired");
+      }
     }
   };
 };
@@ -61,6 +64,9 @@ export const editTaskStatus = (status, id) => {
       dispatch(getTasksAction());
     } catch (error) {
       console.log(error);
+      if (error.response.data.message.includes("expired")) {
+        throw new Error("Expired");
+      }
     }
   };
 };
@@ -78,6 +84,9 @@ export const removeTask = (id) => {
       dispatch(getTasksAction());
     } catch (error) {
       console.log(error);
+      if (error.response.data.message.includes("expired")) {
+        throw new Error("Expired");
+      }
     }
   };
 };

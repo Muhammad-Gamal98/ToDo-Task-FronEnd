@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 import useInput from "../../hooks/useInput";
 import { getTasksAction, sendTask } from "../../store/Action/TasksAction";
+import AuthContext from "../../store/auth-context";
 import Alert from "../UI/Alert";
 import Form from "../UI/Form";
 import Input from "../UI/Input";
@@ -17,6 +18,7 @@ const TaskForm = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const authCtx = useContext(AuthContext);
   const {
     inputValue: titleValue,
     inputChangeHandler: titleChangeHandler,
@@ -73,7 +75,7 @@ const TaskForm = (props) => {
     formIsValid = true;
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setErrorMessage(null);
     setMessage(null);
@@ -84,7 +86,7 @@ const TaskForm = (props) => {
       return;
     }
     try {
-      const x = await dispatch(
+      dispatch(
         sendTask(
           titleValue,
           descriptionValue,
@@ -105,6 +107,7 @@ const TaskForm = (props) => {
       setIsLoading(false);
       setErrorMessage(error.response.data.message);
       console.log(error);
+      error.response.data.message.includes("expired") && authCtx.logOut();
     }
   };
   return (

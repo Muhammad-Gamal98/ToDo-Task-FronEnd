@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getTasksAction } from "../../store/Action/TasksAction";
+import AuthContext from "../../store/auth-context";
 import StatusContainer from "../StatusContainer/StatusContainer";
 const status = [
   {
@@ -33,8 +34,11 @@ const status = [
 
 function TaskList() {
   const dispatch = useDispatch();
+  const authCtx = useContext(AuthContext);
   useEffect(() => {
-    dispatch(getTasksAction());
+    dispatch(getTasksAction()).catch((err) => {
+      authCtx.logOut();
+    });
   }, []);
   return (
     <div className="row mx-3 my-3">
