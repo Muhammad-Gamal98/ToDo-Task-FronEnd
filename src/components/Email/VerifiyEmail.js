@@ -7,6 +7,7 @@ import Button from "../UI/Button";
 
 export const VerifiyEmail = () => {
   const [validURL, setValidURL] = useState();
+  const [Error, setError] = useState();
   const param = useParams();
   useEffect(() => {
     const VerifiyEmailURL = async () => {
@@ -14,21 +15,22 @@ export const VerifiyEmail = () => {
         const res = await axios({
           method: "GET",
           url: `${URL}/user/verifyAccount/${param.id}/${param.token}`,
-          // withCredentials: true,
+          withCredentials: true,
         });
         setValidURL(true);
       } catch (error) {
         console.log(error);
-        setValidURL(false);
+        setError(true);
+        // setValidURL(false);
       }
     };
+
     VerifiyEmailURL();
   }, [param]);
 
   return (
     <>
       <Centered width="6">
-        {!validURL && <h1>404 Not Valid</h1>}
         {validURL && (
           <div>
             <h1>Sucessfull verify</h1>
@@ -38,6 +40,7 @@ export const VerifiyEmail = () => {
             </Link>
           </div>
         )}
+        {Error && <h1>404 Not Valid</h1>}
       </Centered>
     </>
   );

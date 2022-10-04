@@ -32,8 +32,16 @@ function App() {
             path="/tasks"
             element={authCtx.isLogedIn ? <TaskList /> : <Navigate to="/" />}
           />
-          <Route path="/forget-Password" element={<ForgetPassword />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/forget-Password"
+            element={
+              !authCtx.isLogedIn ? <ForgetPassword /> : <Navigate to="/" />
+            }
+          />
+          <Route
+            path="/signup"
+            element={!authCtx.isLogedIn ? <SignUp /> : <Navigate to="/" />}
+          />
           <Route
             path="api/v1/user/verifyaccount/:id/:token"
             element={<VerifiyEmail />}

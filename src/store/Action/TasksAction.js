@@ -64,7 +64,10 @@ export const editTaskStatus = (status, id) => {
       dispatch(getTasksAction());
     } catch (error) {
       console.log(error);
-      if (error.response.data.message.includes("expired")) {
+      if (
+        error.response.data.message.includes("expired") ||
+        error.response.data.message.includes("logged")
+      ) {
         throw new Error("Expired");
       }
     }
@@ -84,7 +87,10 @@ export const removeTask = (id) => {
       dispatch(getTasksAction());
     } catch (error) {
       console.log(error);
-      if (error.response.data.message.includes("expired")) {
+      if (
+        error.response.data.message.includes("expired") ||
+        error.response.data.message.includes("logged")
+      ) {
         throw new Error("Expired");
       }
     }

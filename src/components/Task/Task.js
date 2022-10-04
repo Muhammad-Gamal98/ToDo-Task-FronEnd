@@ -40,6 +40,7 @@ const Task = (props) => {
       return;
     }
     dispatch(editTaskStatus(statusValue, props.id)).catch((error) => {
+      console.log(error);
       authCtx.logOut();
     });
   }, [statusValue, isStatusValid, props.id, dispatch]);

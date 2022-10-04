@@ -85,14 +85,18 @@ const SignUp = () => {
       );
     } catch (error) {
       setIsLoading(false);
-      setErrorMessage("Error while registering");
+      if (error.response.data.message.includes("Duplicate")) {
+        setErrorMessage("This Email already exist");
+      } else {
+        setErrorMessage("Error while registering");
+      }
       console.log(error);
     }
   };
 
   const buttonProps = {
     type: "submit",
-    title: "Login",
+    title: "submit",
     buttonStyle: "btn-primary",
   };
 

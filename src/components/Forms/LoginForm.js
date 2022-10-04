@@ -52,15 +52,15 @@ const LoginForm = () => {
     }
     try {
       const res = await loginAction(emailValue, passwordValue);
-      authCtx.logIn(res.data);
       setIsLoading(false);
 
       if (res.data.status === "notVerified") {
         setErrorMessage(res.data.message);
       } else {
+        authCtx.logIn(res.data);
+        setMessage("Login successfully.");
         emailReset();
         passwordReset();
-        setMessage("Login successfully.");
       }
     } catch (error) {
       setIsLoading(false);

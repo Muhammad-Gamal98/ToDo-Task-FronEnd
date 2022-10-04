@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import URL from "../../constants/URL";
 import useInput from "../../hooks/useInput";
 import { resetPassword } from "../../store/Action/loginAction";
+import AuthContext from "../../store/auth-context";
 import Centered from "../layouts/Centered";
 import Alert from "../UI/Alert";
 import Card from "../UI/Card";
@@ -17,7 +18,9 @@ const ResetPassword = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [validURL, setValidURL] = useState();
-  const [successReset, setSuccessReset] = useState(false);
+  const [errorURL, setErrorURL] = useState();
+  // const [successReset, setSuccessReset] = useState(false);
+  const authCtx = useContext(AuthContext);
 
   const {
     inputValue: passwordValue,
@@ -49,11 +52,12 @@ const ResetPassword = () => {
         setValidURL(true);
       } catch (error) {
         console.log(error);
-        setValidURL(false);
+        // setValidURL(false);
+        setErrorURL(true);
       }
     };
     verifyReset();
-  }, [param]);
+  }, []);
   let formIsValied = false;
   if (passwordValid && passwordConfirmValid) {
     formIsValied = true;
@@ -62,11 +66,9 @@ const ResetPassword = () => {
     event.preventDefault();
     setErrorMessage(null);
     setMessage(null);
-    setSuccessReset(false);
 
     setIsLoading(true);
     if (!formIsValied) {
-      setSuccessReset(false);
       setErrorMessage("Invalied Inputs");
       setIsLoading(false);
       return;
@@ -82,10 +84,11 @@ const ResetPassword = () => {
       passwordReset();
       passwordConfirmReset();
       setMessage("Password is reseted");
-      setSuccessReset(true);
+      setTimeout(() => {
+        authCtx.logIn(res.data);
+      }, 500);
     } catch (error) {
       setIsLoading(false);
-      setSuccessReset(false);
       setErrorMessage(error.response.data.message);
       console.log(error.response.data.message);
     }
@@ -95,16 +98,14 @@ const ResetPassword = () => {
     type: "submit",
     title: "Confirm",
     buttonStyle: "btn-primary",
-    passReset: successReset,
   };
   return (
     <>
       <Centered width="6">
-        {!validURL && <h1>404 Not Valid</h1>}
+        {errorURL && <h1>404 Not Valid</h1>}
         {validURL && (
           <Card title="Reset Password">
             <Form
-              passReset={successReset}
               inputs={buttonProps}
               handleSubmit={handleSubmit}
               isLoading={isLoading}

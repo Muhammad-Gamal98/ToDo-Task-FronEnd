@@ -17,6 +17,7 @@ const TaskForm = (props) => {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const authCtx = useContext(AuthContext);
   const {
@@ -42,7 +43,7 @@ const TaskForm = (props) => {
     isInputValid: isPriorityValid,
     inputHasError: priorityHasError,
     reset: priorityReset,
-  } = useInput((val) => val != "");
+  } = useInput((val) => val !== "");
   const {
     inputValue: startDateValue,
     inputChangeHandler: startDateChangeHandler,
@@ -50,7 +51,7 @@ const TaskForm = (props) => {
     isInputValid: isStartDateValid,
     inputHasError: startDateHasError,
     reset: startDateReset,
-  } = useInput((val) => val != "");
+  } = useInput((val) => val !== "");
   const {
     inputValue: endDateValue,
     inputChangeHandler: endDateChangeHandler,
@@ -60,7 +61,7 @@ const TaskForm = (props) => {
     reset: endDateReset,
   } = useInput(
     (val) =>
-      val != "" &&
+      val !== "" &&
       convertToTimeStamp(new Date(val)) >=
         convertToTimeStamp(new Date(startDateValue))
   );
@@ -107,8 +108,13 @@ const TaskForm = (props) => {
       setIsLoading(false);
       setErrorMessage(error.response.data.message);
       console.log(error);
+
       error.response.data.message.includes("expired") ||
-        (error.response.data.message.includes("logged") && authCtx.logOut());
+        (error.response.data.message.includes("logged") &&
+          setTimeout(() => {
+            props.onClose();
+            authCtx.logOut();
+          }, 1000));
     }
   };
   return (
